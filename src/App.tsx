@@ -2,6 +2,9 @@ import { useEffect, useState, MouseEventHandler, SyntheticEvent } from 'react';
 import liff from '@line/liff';
 import './App.css';
 
+type Unpack<T extends Array<any>> = T extends Array<infer U> ? U : never;
+type Message = Unpack<Parameters<typeof liff.shareTargetPicker>[0]>;
+
 const messageLayouts = {
   social: {
     type: 'bubble',
@@ -21,6 +24,10 @@ const messageLayouts = {
               aspectRatio: '150:196',
               gravity: 'center',
               flex: 1,
+              action: {
+                type: 'uri',
+                uri: 'https://www.tiktok.com/@taylorswift',
+              },
             },
             {
               type: 'box',
@@ -33,6 +40,10 @@ const messageLayouts = {
                   aspectMode: 'cover',
                   aspectRatio: '150:98',
                   gravity: 'center',
+                  action: {
+                    type: 'uri',
+                    uri: 'https://www.tiktok.com/@taylorswift',
+                  },
                 },
                 {
                   type: 'image',
@@ -41,6 +52,10 @@ const messageLayouts = {
                   aspectMode: 'cover',
                   aspectRatio: '150:98',
                   gravity: 'center',
+                  action: {
+                    type: 'uri',
+                    uri: 'https://www.tiktok.com/@taylorswift',
+                  },
                 },
               ],
               flex: 1,
