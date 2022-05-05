@@ -340,6 +340,8 @@ function App() {
     if (liff.isApiAvailable('shareTargetPicker')) {
       liff.shareTargetPicker([messageLayouts[messageType] as any], {
         isMultiple: true,
+      }).catch((e: Error) => {
+        setError(`${e}`)
       });
     } else {
       setError('不支持 shareTargetPicker');
