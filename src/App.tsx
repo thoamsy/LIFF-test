@@ -315,6 +315,7 @@ const messageLayouts = {
 function App() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [logined, setLogined] = useState(false);
 
   useEffect(() => {
     liff
@@ -323,6 +324,7 @@ function App() {
       })
       .then(() => {
         setMessage('LIFF init succeeded.');
+        setLogined(true);
       })
       .catch((e: Error) => {
         setMessage('LIFF init failed.');
@@ -338,11 +340,22 @@ function App() {
   const shareToFriend = () => {
     setError('');
     if (liff.isApiAvailable('shareTargetPicker')) {
-      liff.shareTargetPicker([messageLayouts[messageType] as any], {
-        isMultiple: true,
-      }).catch((e: Error) => {
-        setError(`${e}`)
-      });
+      liff
+        .shareTargetPicker(
+          [
+            {
+              type: 'flex',
+              altText: 'flex message',
+              contents: messageLayouts[messageType] as any,
+            },
+          ],
+          {
+            isMultiple: true,
+          },
+        )
+        .catch((e: Error) => {
+          setError(`${e}`);
+        });
     } else {
       setError('不支持 shareTargetPicker');
     }
@@ -364,35 +377,43 @@ function App() {
       >
         LIFF Documentation
       </a>
-      <div>
-        <label onClick={chooseRadio('social')}>
-          <input
-            checked={messageType === 'social'}
-            type="radio"
-            name="social"
-          />{' '}
-          social
-        </label>
-        <label onClick={chooseRadio('video')}>
-          <input checked={messageType === 'video'} type="radio" name="video" />{' '}
-          video
-        </label>
-        <label onClick={chooseRadio('shopping')}>
-          <input
-            checked={messageType === 'shopping'}
-            type="radio"
-            name="shopping"
-          />{' '}
-          shoppint
-        </label>
-      </div>
-      <button
-        style={{ display: 'block', padding: '8px 15px' }}
-        type="button"
-        onClick={shareToFriend}
-      >
-        Share to Friends
-      </button>
+      {logined && (
+        <>
+          <div>
+            <label onClick={chooseRadio('social')}>
+              <input
+                checked={messageType === 'social'}
+                type="radio"
+                name="social"
+              />{' '}
+              social
+            </label>
+            <label onClick={chooseRadio('video')}>
+              <input
+                checked={messageType === 'video'}
+                type="radio"
+                name="video"
+              />{' '}
+              video
+            </label>
+            <label onClick={chooseRadio('shopping')}>
+              <input
+                checked={messageType === 'shopping'}
+                type="radio"
+                name="shopping"
+              />{' '}
+              shoppint
+            </label>
+          </div>
+          <button
+            style={{ display: 'block', padding: '8px 15px' }}
+            type="button"
+            onClick={shareToFriend}
+          >
+            Share to Friends
+          </button>
+        </>
+      )}
     </div>
   );
 }
