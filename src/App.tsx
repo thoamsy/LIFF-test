@@ -303,11 +303,11 @@ const messageLayouts = {
       altContent: {
         type: 'image',
         size: 'full',
-        aspectRatio: '16:9',
+        aspectRatio: '9:16',
         aspectMode: 'cover',
         url: 'https://p16-sign-sg.tiktokcdn.com/tos-alisg-p-0037/7e9071617ee5412bb982b74af8297dbf_1637481405~tplv-tiktokx-share-play.jpeg?x-expires=1637676000&x-signature=4sO9RHgTv%2B3hhyS1%2BBj%2FPUNfykU%3D',
       },
-      aspectRatio: '16:9',
+      aspectRatio: '9:16',
     },
   },
 };
