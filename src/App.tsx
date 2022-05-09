@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEventHandler, SyntheticEvent } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import liff from '@line/liff';
 import './App.css';
 
@@ -345,7 +345,21 @@ function App() {
         setMessage('LIFF init failed.');
         setError(`${e}`);
       });
-  });
+  }, []);
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    videoRef.current?.setAttribute('autoPictureInPicture', '');
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        videoRef.current?.requestPictureInPicture();
+      } else if (document.pictureInPictureElement) {
+        document.exitPictureInPicture();
+      }
+    });
+  }, []);
+
   const [messageType, setMessageType] =
     useState<keyof typeof messageLayouts>('video');
   const chooseRadio = (name: keyof typeof messageLayouts) => () => {
@@ -429,6 +443,18 @@ function App() {
           </button>
         </>
       )}
+      <video
+        style={{ width: 'min(90%, 400px)', height: 'auto' }}
+        src="https://v16-web-prime.tiktokcdn.com/8c143dbc5a6b546f5fd0fc4390bf0b23/62dbf3f2/video/tos/maliva/tos-maliva-ve-0068c799-us/2e89ff7616304f839f7595c9f174fce7/?a=1233&br=2486&bt=1243&cd=0%7C0%7C1%7C0&ch=0&cr=0&cs=0&cv=1&dr=0&ds=3&er=&ft=stgC~3E7nz7Thp0X5lXq&l=20220124131312010223117079218827FF&lr=tiktok_m&mime_type=video_mp4&net=0&pl=0&qs=0&rc=anI1dGc6ZnE6OjMzZzczNEApNjRoM2U8MztlNzM5OWU5aWdeNmQ2cjRnNGtgLS1kMS9zc2MvMzY2YTYtYi5eMF42NTY6Yw%3D%3D&vl=&vr="
+        controls
+        muted
+        autoPlay
+        playsInline
+        ref={videoRef}
+        loop
+        // @ts-ignore
+        autoPictureInPicture
+      />
     </div>
   );
 }
