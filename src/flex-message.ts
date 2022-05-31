@@ -53,6 +53,11 @@ const ImageHero = (cover: string, ratio: string) => ({
     ],
     justifyContent: 'center',
     alignItems: 'center',
+    action: {
+      type: 'uri',
+      label: 'action',
+      uri: 'https://www.tiktok.com/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
+    },
   },
 });
 
@@ -159,7 +164,7 @@ export const videoFlexMessage = ({
         action: {
           type: 'uri',
           label: 'SEE MORE',
-          uri: 'http://linecorp.com/',
+          uri: 'https://www.tiktok.com/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
         },
         color: '#FE2C55',
       },
