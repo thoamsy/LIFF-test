@@ -82,18 +82,16 @@ function App() {
           <div>
             <input
               value={width}
-              min={1}
               onChange={(event) => setWidth(Number(event.target.value))}
               style={{ width: 50 }}
-              type="number"
+              type="tel"
             />
             <span style={{ margin: '0 4px' }}>:</span>
             <input
-              min={1}
               value={height}
               style={{ width: 50 }}
               onChange={(event) => setHeight(Number(event.target.value))}
-              type="number"
+              type="tel"
             />
           </div>
         </label>
