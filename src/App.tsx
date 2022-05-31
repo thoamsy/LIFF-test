@@ -122,6 +122,7 @@ function App() {
           />
         </label>
         <button
+          disabled={!logined}
           onClick={() => {
             const messageJSON = videoFlexMessage({
               avatar:
@@ -130,9 +131,10 @@ function App() {
                 'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip7.jpg',
               creator,
               description,
-              ratio: '' + width / height,
+              ratio: `${width}:${height}`,
               videoURL,
             });
+            console.log(messageJSON);
             if (liff.isApiAvailable('shareTargetPicker')) {
               liff
                 .shareTargetPicker(
