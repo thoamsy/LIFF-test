@@ -121,6 +121,7 @@ export const videoFlexMessage = ({
                   {
                     type: 'span',
                     text: description,
+                    maxLines: 3,
                   },
                 ],
                 size: 'sm',

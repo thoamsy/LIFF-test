@@ -17,8 +17,10 @@ function App() {
         liffId: import.meta.env.VITE_LIFF_ID,
       })
       .then(() => {
-        setMessage('LIFF init succeeded.');
+        const views = Number(localStorage.getItem('views') || 0);
+        setMessage(`you have views: ${views}`);
         setLogined(true);
+        localStorage.setItem('views', `${views + 1}`);
       })
       .catch((e: Error) => {
         setMessage('LIFF init failed.');
