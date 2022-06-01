@@ -134,7 +134,6 @@ function App() {
               ratio: `${width}:${height}`,
               videoURL,
             });
-            console.log(messageJSON);
             if (liff.isApiAvailable('shareTargetPicker')) {
               liff
                 .shareTargetPicker(

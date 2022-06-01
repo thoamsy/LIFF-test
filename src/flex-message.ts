@@ -77,6 +77,7 @@ export const videoFlexMessage = ({
   ratio: string;
 }) => ({
   type: 'bubble',
+  size: videoURL ? 'mega' : undefined,
   ...(videoURL ? VideoHero(cover, videoURL, ratio) : ImageHero(cover, ratio)),
   body: {
     type: 'box',
@@ -107,6 +108,7 @@ export const videoFlexMessage = ({
             contents: [
               {
                 type: 'text',
+                maxLines: 3,
                 contents: [
                   {
                     type: 'span',
@@ -121,7 +123,6 @@ export const videoFlexMessage = ({
                   {
                     type: 'span',
                     text: description,
-                    maxLines: 3,
                   },
                 ],
                 size: 'sm',
@@ -172,9 +173,6 @@ export const videoFlexMessage = ({
     ],
   },
   styles: {
-    hero: {
-      separator: true,
-    },
     footer: {
       separator: true,
     },
