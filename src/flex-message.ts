@@ -56,7 +56,7 @@ const ImageHero = (cover: string, ratio: string) => ({
     action: {
       type: 'uri',
       label: 'action',
-      uri: 'https://www.tiktok.com/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
+      uri: 'https://liff.line.me/1657202989-vQLpD8Xl/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
     },
   },
 });
@@ -166,7 +166,7 @@ export const videoFlexMessage = ({
         action: {
           type: 'uri',
           label: 'SEE MORE',
-          uri: 'https://www.tiktok.com/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
+          uri: 'https://liff.line.me/1657202989-vQLpD8Xl/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
         },
         color: '#FE2C55',
       },
