@@ -10,6 +10,7 @@ function App() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [logined, setLogined] = useState(false);
+  const [agent, setAgent] = useState('');
 
   useEffect(() => {
     liff
@@ -22,6 +23,7 @@ function App() {
         setMessage(`you have views: ${views}`);
         setLogined(true);
         localStorage.setItem('views', `${views + 1}`);
+        setAgent(navigator.userAgent);
       })
       .catch((e: Error) => {
         setMessage('LIFF init failed.');
@@ -75,6 +77,7 @@ function App() {
           <code>{error}</code>
         </p>
       )}
+      {agent && <p>{agent}</p>}
       <form
         onSubmit={(e) => {
           e.preventDefault();
