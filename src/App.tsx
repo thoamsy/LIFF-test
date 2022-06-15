@@ -15,6 +15,7 @@ function App() {
     liff
       .init({
         liffId: import.meta.env.VITE_LIFF_ID,
+        withLoginOnExternalBrowser: true,
       })
       .then(() => {
         const views = Number(localStorage.getItem('views') || 0);
