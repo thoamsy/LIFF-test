@@ -19,16 +19,11 @@ function App() {
         withLoginOnExternalBrowser: true,
       })
       .then(() => {
-        if (!liff.isInClient()) {
-          location.replace('https://liff.line.me/1657095357-Pxnv77e7');
-        }
-      })
-      .then(() => {
         const views = Number(localStorage.getItem('views') || 0);
         setMessage(`you have views: ${views}`);
         setLogined(true);
         localStorage.setItem('views', `${views + 1}`);
-        setAgent(navigator.userAgent);
+        setAgent(`${location.href}: ${navigator.userAgent}`);
       })
       .catch((e: Error) => {
         setMessage('LIFF init failed.');
