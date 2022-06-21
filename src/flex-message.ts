@@ -78,11 +78,50 @@ export const videoFlexMessage = ({
 }) => ({
   type: 'bubble',
   size: videoURL ? 'mega' : undefined,
-  ...(videoURL ? VideoHero(cover, videoURL, ratio) : ImageHero(cover, ratio)),
+  ...(videoURL ? VideoHero(cover, videoURL, ratio) : {}),
   body: {
     type: 'box',
     layout: 'vertical',
     contents: [
+      {
+        type: 'box',
+        layout: 'horizontal',
+        contents: [
+          {
+            type: 'image',
+            url: 'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip7.jpg',
+            aspectRatio: '9:16',
+            gravity: 'center',
+            flex: 1,
+            aspectMode: 'cover',
+            size: 'full',
+          },
+          {
+            type: 'image',
+            url: 'https://p16-crawlerpic-sign-sg.ibyteimg.com/tos-alisg-i-vr8s64j1wk-sg/tiktok-logo.png~tplv-vr8s64j1wk-image.image?x-expires=1656556702&x-signature=JeceYwcnGjdofkcp0vONSzMo%2B74%3D',
+            size: '44px',
+            offsetBottom: '8px',
+            offsetEnd: '8px',
+            position: 'absolute',
+          },
+          {
+            type: 'image',
+            url: 'https://p16-crawlerpic-sign-sg.ibyteimg.com/tos-alisg-i-vr8s64j1wk-sg/play.png~tplv-vr8s64j1wk-image.image?x-expires=1664455959&x-signature=O5%2BJVnhZ3VG7XWdhUcsjWSoaFe0%3D',
+            size: '64px',
+            animated: true,
+            aspectMode: 'fit',
+            position: 'absolute',
+            align: 'center',
+          },
+        ],
+        justifyContent: 'center',
+        alignItems: 'center',
+        action: {
+          type: 'uri',
+          label: 'action',
+          uri: 'https://www.tiktok.com/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
+        },
+      },
       {
         type: 'box',
         layout: 'horizontal',
@@ -93,14 +132,15 @@ export const videoFlexMessage = ({
             contents: [
               {
                 type: 'image',
-                url: avatar,
+                url: 'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip13.jpg',
                 aspectMode: 'cover',
+                aspectRatio: '1:1',
                 size: 'full',
               },
             ],
-            cornerRadius: '100px',
-            width: '72px',
-            height: '72px',
+            cornerRadius: '8px',
+            width: '36px',
+            height: '36px',
           },
           {
             type: 'box',
@@ -108,69 +148,208 @@ export const videoFlexMessage = ({
             contents: [
               {
                 type: 'text',
-                maxLines: 3,
                 contents: [
                   {
                     type: 'span',
                     text: creator,
                     weight: 'bold',
-                    color: '#161823',
-                  },
-                  {
-                    type: 'span',
-                    text: '     ',
-                  },
-                  {
-                    type: 'span',
-                    text: description,
+                    color: '#ffffff',
                   },
                 ],
-                size: 'sm',
+                size: '13px',
                 wrap: true,
+                weight: 'bold',
               },
               {
-                type: 'box',
-                layout: 'vertical',
-                contents: [
-                  {
-                    type: 'text',
-                    text: '1,140,753 Like',
-                    size: 'sm',
-                    color: '#16182357',
-                  },
-                  {
-                    type: 'text',
-                    text: '100,000 comments',
-                    size: 'sm',
-                    color: '#16182357',
-                  },
-                ],
-                spacing: 'sm',
-                margin: 'md',
+                type: 'text',
+                text: description,
+                size: '13px',
+                weight: 'regular',
+                color: '#FFFFFFBF',
+                maxLines: 2,
               },
             ],
+            flex: 1,
+          },
+          {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: 'See more',
+                weight: 'bold',
+                size: '12px',
+                color: '#161823',
+              },
+            ],
+            width: '72px',
+            height: '32px',
+            borderWidth: '1px',
+            borderColor: '#1618231F',
+            backgroundColor: '#ffffff',
+            cornerRadius: '32px',
+            justifyContent: 'center',
+            alignItems: 'center',
           },
         ],
-        spacing: 'xl',
-        paddingAll: '20px',
+        spacing: '8px',
+        position: 'absolute',
+        backgroundColor: '#00000099',
+        paddingTop: '16px',
+        paddingBottom: '16px',
+        paddingStart: '12px',
+        paddingEnd: '12px',
+        offsetBottom: '0px',
+        offsetEnd: '0px',
+        offsetStart: '0px',
       },
     ],
     paddingAll: '0px',
   },
-  footer: {
+  styles: {
+    footer: {
+      separator: true,
+    },
+  },
+});
+
+export const flexMessageLandspace = ({
+  cover,
+  avatar,
+  creator,
+  description = '',
+}: {
+  cover: string;
+  avatar: string;
+  description?: string;
+  creator: string;
+}) => ({
+  type: 'bubble',
+  body: {
     type: 'box',
     layout: 'vertical',
     contents: [
       {
-        type: 'button',
+        type: 'box',
+        layout: 'horizontal',
+        contents: [
+          {
+            type: 'image',
+            url: cover,
+            aspectRatio: '9:16',
+            gravity: 'center',
+            flex: 1,
+            aspectMode: 'cover',
+            size: 'full',
+          },
+          {
+            type: 'image',
+            url: 'https://p16-crawlerpic-sign-sg.ibyteimg.com/tos-alisg-i-vr8s64j1wk-sg/tiktok-logo.png~tplv-vr8s64j1wk-image.image?x-expires=1656556702&x-signature=JeceYwcnGjdofkcp0vONSzMo%2B74%3D',
+            size: '44px',
+            offsetBottom: '8px',
+            offsetEnd: '8px',
+            position: 'absolute',
+          },
+          {
+            type: 'image',
+            url: 'https://p16-crawlerpic-sign-sg.ibyteimg.com/tos-alisg-i-vr8s64j1wk-sg/play.png~tplv-vr8s64j1wk-image.image?x-expires=1664455959&x-signature=O5%2BJVnhZ3VG7XWdhUcsjWSoaFe0%3D',
+            size: '56px',
+            animated: true,
+            aspectMode: 'fit',
+            position: 'absolute',
+            align: 'center',
+          },
+        ],
+        justifyContent: 'center',
+        alignItems: 'center',
         action: {
           type: 'uri',
-          label: 'SEE MORE',
-          uri: 'https://liff.line.me/1657202989-vQLpD8Xl/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
+          label: 'action',
+          uri: 'https://www.tiktok.com/@eight_life_counseling/video/7092380726213070081?is_copy_url=1&is_from_webapp=v1&_r=1',
         },
-        color: '#FE2C55',
+        height: '168px',
+      },
+      {
+        type: 'box',
+        layout: 'horizontal',
+        contents: [
+          {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'image',
+                url: 'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip13.jpg',
+                aspectMode: 'cover',
+                aspectRatio: '1:1',
+                size: 'full',
+              },
+            ],
+            cornerRadius: '8px',
+            width: '36px',
+            height: '36px',
+          },
+          {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                contents: [
+                  {
+                    type: 'span',
+                    text: creator,
+                    weight: 'bold',
+                    color: '#ffffff',
+                  },
+                ],
+                size: '13px',
+                wrap: true,
+                weight: 'bold',
+              },
+              {
+                type: 'text',
+                text: description,
+                size: '13px',
+                weight: 'regular',
+                color: '#FFFFFFBF',
+                maxLines: 2,
+              },
+            ],
+            flex: 1,
+          },
+          {
+            type: 'box',
+            layout: 'vertical',
+            contents: [
+              {
+                type: 'text',
+                text: 'See more',
+                weight: 'bold',
+                size: '12px',
+                color: '#161823',
+              },
+            ],
+            width: '72px',
+            height: '32px',
+            borderWidth: '1px',
+            borderColor: '#1618231F',
+            backgroundColor: '#ffffff',
+            cornerRadius: '32px',
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+        ],
+        spacing: '8px',
+        backgroundColor: '#00000099',
+        offsetBottom: '0px',
+        offsetEnd: '0px',
+        offsetStart: '0px',
+        paddingAll: '12px',
       },
     ],
+    paddingAll: '0px',
   },
   styles: {
     footer: {

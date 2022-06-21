@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import liff from '@line/liff';
 import './App.css';
-import { videoFlexMessage } from './flex-message';
+import { videoFlexMessage, flexMessageLandspace } from './flex-message';
 
 type Unpack<T extends Array<any>> = T extends Array<infer U> ? U : never;
 type Message = Unpack<Parameters<typeof liff.shareTargetPicker>[0]>;
@@ -16,7 +16,7 @@ function App() {
     liff
       .init({
         liffId: import.meta.env.VITE_LIFF_ID,
-        withLoginOnExternalBrowser: true,
+        // withLoginOnExternalBrowser: true,
       })
       .then(() => {
         const views = Number(localStorage.getItem('views') || 0);
@@ -48,7 +48,6 @@ function App() {
   const [width, setWidth] = useState(1);
   const [creator, setCreator] = useState('作者名字，随便改改');
   const [description, setDescription] = useState('分享出去的 desc，随便改改');
-  const [videoURL, setVideoURL] = useState('');
 
   return (
     <div className="App">
@@ -117,16 +116,39 @@ function App() {
             onChange={(event) => setDescription(event.target.value)}
           />
         </label>
-        <label>
-          <p>复制一个后缀名为 .mp4 的视频链接来测试下. 可选</p>
-          <input
-            value={videoURL}
-            type="url"
-            onChange={(event) => setVideoURL(event.target.value)}
-          />
-        </label>
         <button
           disabled={!logined}
+          onDoubleClick={() => {
+            // landspace
+            const messageJSON = flexMessageLandspace({
+              avatar:
+                'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip13.jpg',
+              cover:
+                'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip7.jpg',
+              creator,
+              description,
+            });
+            if (liff.isApiAvailable('shareTargetPicker')) {
+              liff
+                .shareTargetPicker(
+                  [
+                    {
+                      type: 'flex',
+                      altText: 'flex message',
+                      contents: messageJSON as any,
+                    },
+                  ],
+                  {
+                    isMultiple: true,
+                  },
+                )
+                .catch((e: Error) => {
+                  setError(`${e}`);
+                });
+            } else {
+              setError('不支持 shareTargetPicker');
+            }
+          }}
           onClick={() => {
             const messageJSON = videoFlexMessage({
               avatar:
@@ -136,7 +158,6 @@ function App() {
               creator,
               description,
               ratio: `${width}:${height}`,
-              videoURL,
             });
             if (liff.isApiAvailable('shareTargetPicker')) {
               liff
