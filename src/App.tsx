@@ -16,7 +16,7 @@ function App() {
     liff
       .init({
         liffId: import.meta.env.VITE_LIFF_ID,
-        // withLoginOnExternalBrowser: true,
+        withLoginOnExternalBrowser: true,
       })
       .then(() => {
         const views = Number(localStorage.getItem('views') || 0);
@@ -128,7 +128,7 @@ function App() {
               creator,
               description,
             });
-            if (liff.isApiAvailable('shareTargetPicker')) {
+            if (true) {
               liff
                 .shareTargetPicker(
                   [
@@ -159,7 +159,7 @@ function App() {
               description,
               ratio: `${width}:${height}`,
             });
-            if (liff.isApiAvailable('shareTargetPicker')) {
+            if (true) {
               liff
                 .shareTargetPicker(
                   [
