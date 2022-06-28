@@ -118,38 +118,14 @@ function App() {
         </label>
         <button
           disabled={!logined}
-          onDoubleClick={() => {
-            // landspace
-            const messageJSON = flexMessageLandspace({
-              avatar:
-                'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip13.jpg',
-              cover:
-                'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip7.jpg',
-              creator,
-              description,
-            });
-            if (true) {
-              liff
-                .shareTargetPicker(
-                  [
-                    {
-                      type: 'flex',
-                      altText: 'flex message',
-                      contents: messageJSON as any,
-                    },
-                  ],
-                  {
-                    isMultiple: true,
-                  },
-                )
-                .catch((e: Error) => {
-                  setError(`${e}`);
-                });
-            } else {
-              setError('不支持 shareTargetPicker');
-            }
-          }}
           onClick={() => {
+            if (!liff.isInClient()) {
+              liff.openWindow({
+                url: 'https://liff.line.me/1657095357-Pxnv77e7',
+              });
+              return;
+            }
+
             const messageJSON = videoFlexMessage({
               avatar:
                 'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip13.jpg',
@@ -159,26 +135,25 @@ function App() {
               description,
               ratio: `${width}:${height}`,
             });
-            if (true) {
-              liff
-                .shareTargetPicker(
-                  [
-                    {
-                      type: 'flex',
-                      altText: 'flex message',
-                      contents: messageJSON as any,
-                    },
-                  ],
+            liff
+              .shareTargetPicker(
+                [
                   {
-                    isMultiple: true,
+                    type: 'flex',
+                    altText: 'flex message',
+                    contents: messageJSON as any,
                   },
-                )
-                .catch((e: Error) => {
-                  setError(`${e}`);
-                });
-            } else {
-              setError('不支持 shareTargetPicker');
-            }
+                ],
+                {
+                  isMultiple: true,
+                },
+              )
+              .then(() => {
+                liff.closeWindow();
+              })
+              .catch((e: Error) => {
+                setError(`${e}`);
+              });
           }}
         >
           Share to Friends
