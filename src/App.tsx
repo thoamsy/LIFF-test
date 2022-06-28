@@ -19,11 +19,20 @@ function App() {
         withLoginOnExternalBrowser: true,
       })
       .then(() => {
-        const views = Number(localStorage.getItem('views') || 0);
-        setMessage(`you have views: ${views}`);
-        setLogined(true);
-        localStorage.setItem('views', `${views + 1}`);
-        setAgent(`${location.href}: ${navigator.userAgent}`);
+        if (
+          liff.isInClient() &&
+          new URL(location.href).searchParams.get('from_url')
+        ) {
+          shareTo().then(() => {
+            liff.closeWindow();
+          });
+        } else {
+          const views = Number(localStorage.getItem('views') || 0);
+          setMessage(`you have views: ${views}`);
+          setLogined(true);
+          localStorage.setItem('views', `${views + 1}`);
+          setAgent(`${location.href}: ${navigator.userAgent}`);
+        }
       })
       .catch((e: Error) => {
         setMessage('LIFF init failed.');
@@ -48,6 +57,31 @@ function App() {
   const [width, setWidth] = useState(1);
   const [creator, setCreator] = useState('作者名字，随便改改');
   const [description, setDescription] = useState('分享出去的 desc，随便改改');
+
+  function shareTo() {
+    const messageJSON = videoFlexMessage({
+      avatar:
+        'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip13.jpg',
+      cover:
+        'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip7.jpg',
+      creator,
+      description,
+      ratio: `${width}:${height}`,
+    });
+
+    return liff.shareTargetPicker(
+      [
+        {
+          type: 'flex',
+          altText: 'flex message',
+          contents: messageJSON as any,
+        },
+      ],
+      {
+        isMultiple: true,
+      },
+    );
+  }
 
   return (
     <div className="App">
@@ -121,39 +155,11 @@ function App() {
           onClick={() => {
             if (!liff.isInClient()) {
               liff.openWindow({
-                url: 'https://liff.line.me/1657095357-Pxnv77e7',
+                url: 'https://liff.line.me/1657095357-Pxnv77e7?from_url=1',
               });
               return;
             }
-
-            const messageJSON = videoFlexMessage({
-              avatar:
-                'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip13.jpg',
-              cover:
-                'https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip7.jpg',
-              creator,
-              description,
-              ratio: `${width}:${height}`,
-            });
-            liff
-              .shareTargetPicker(
-                [
-                  {
-                    type: 'flex',
-                    altText: 'flex message',
-                    contents: messageJSON as any,
-                  },
-                ],
-                {
-                  isMultiple: true,
-                },
-              )
-              .then(() => {
-                liff.closeWindow();
-              })
-              .catch((e: Error) => {
-                setError(`${e}`);
-              });
+            shareTo();
           }}
         >
           Share to Friends
