@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import liff from '@line/liff';
 import './App.css';
-import { videoFlexMessage, flexMessageLandspace } from './flex-message';
+import { videoFlexMessage } from './flex-message';
 
 type Unpack<T extends Array<any>> = T extends Array<infer U> ? U : never;
 type Message = Unpack<Parameters<typeof liff.shareTargetPicker>[0]>;
@@ -9,14 +9,11 @@ type Message = Unpack<Parameters<typeof liff.shareTargetPicker>[0]>;
 function App() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [logined, setLogined] = useState(false);
-  const [agent, setAgent] = useState('');
 
   useEffect(() => {
     liff
       .init({
         liffId: import.meta.env.VITE_LIFF_ID,
-        withLoginOnExternalBrowser: true,
       })
       .then(() => {
         if (
@@ -27,11 +24,9 @@ function App() {
             liff.closeWindow();
           });
         } else {
-          const views = Number(localStorage.getItem('views') || 0);
-          setMessage(`you have views: ${views}`);
-          setLogined(true);
-          localStorage.setItem('views', `${views + 1}`);
-          setAgent(`${location.href}: ${navigator.userAgent}`);
+          if (liff.isLoggedIn()) {
+            setMessage('you are logged in');
+          }
         }
       })
       .catch((e: Error) => {
@@ -42,17 +37,17 @@ function App() {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-    // videoRef.current?.setAttribute('autoPictureInPicture', '');
-    // videoRef.current?.setAttribute('autopictureinpicture', '');
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        videoRef.current?.requestPictureInPicture();
-      } else if (document.pictureInPictureElement) {
-        document.exitPictureInPicture();
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   // videoRef.current?.setAttribute('autoPictureInPicture', '');
+  //   // videoRef.current?.setAttribute('autopictureinpicture', '');
+  //   document.addEventListener('visibilitychange', () => {
+  //     if (document.hidden) {
+  //       videoRef.current?.requestPictureInPicture();
+  //     } else if (document.pictureInPictureElement) {
+  //       document.exitPictureInPicture();
+  //     }
+  //   });
+  // }, []);
   const [height, setHeight] = useState(1);
   const [width, setWidth] = useState(1);
   const [creator, setCreator] = useState('作者名字，随便改改');
@@ -69,18 +64,23 @@ function App() {
       ratio: `${width}:${height}`,
     });
 
-    return liff.shareTargetPicker(
-      [
+    if (liff.isApiAvailable('shareTargetPicker')) {
+      return liff.shareTargetPicker(
+        [
+          {
+            type: 'flex',
+            altText: 'flex message',
+            contents: messageJSON as any,
+          },
+        ],
         {
-          type: 'flex',
-          altText: 'flex message',
-          contents: messageJSON as any,
+          isMultiple: true,
         },
-      ],
-      {
-        isMultiple: true,
-      },
-    );
+      );
+    } else {
+      setError('cant use shareTargetPicker');
+      return Promise.reject();
+    }
   }
 
   return (
@@ -110,7 +110,6 @@ function App() {
           <code>{error}</code>
         </p>
       )}
-      {agent && <p>{agent}</p>}
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -151,7 +150,6 @@ function App() {
           />
         </label>
         <button
-          disabled={!logined}
           onClick={() => {
             if (!liff.isInClient()) {
               liff.openWindow({
